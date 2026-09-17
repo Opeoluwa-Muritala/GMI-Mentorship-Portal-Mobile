@@ -12,6 +12,11 @@ targets:
       - path: iosApp
     info:
       path: Info.plist
+      properties:
+        CADisableMinimumFrameDurationOnPhone: true
+        UILaunchScreen: {}
+        CFBundleDisplayName: GMI Portal
+        UIUserInterfaceStyle: Light
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: org.globalmentorship.portal
       ARCHS: [arm64]

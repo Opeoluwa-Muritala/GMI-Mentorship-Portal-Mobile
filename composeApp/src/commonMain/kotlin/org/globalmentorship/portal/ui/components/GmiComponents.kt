@@ -3,6 +3,10 @@ package org.globalmentorship.portal.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.ui.semantics.Role
+import org.globalmentorship.portal.platform.usesIosAppearance
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,8 +38,8 @@ fun GmiTopAppBar(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        color = GmiNavy,
-        contentColor = Color.White,
+        color = if (usesIosAppearance) GmiSurface else GmiNavy,
+        contentColor = if (usesIosAppearance) GmiTextPrimary else Color.White,
         modifier = modifier.fillMaxWidth()
     ) {
         Row(
@@ -70,8 +74,8 @@ fun GmiTopAppBar(
 
                 Column {
                     Text(
-                        text = "GMI Mentorship Portal",
-                        color = Color.White,
+                        text = if (usesIosAppearance) "GMI Portal" else "GMI Mentorship Portal",
+                        color = if (usesIosAppearance) GmiTextPrimary else Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
                         maxLines = 1,
@@ -79,7 +83,7 @@ fun GmiTopAppBar(
                     )
                     Text(
                         text = "Global Mentorship Initiative",
-                        color = Color.White.copy(alpha = 0.75f),
+                        color = if (usesIosAppearance) GmiTextSecondary else Color.White.copy(alpha = 0.75f),
                         fontSize = 11.sp,
                         maxLines = 1
                     )
@@ -90,7 +94,7 @@ fun GmiTopAppBar(
             if (user != null) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
+                        .size(44.dp)
                         .clip(CircleShape)
                         .border(
                             width = 2.dp,
@@ -119,6 +123,10 @@ fun GmiBottomBar(
     unreadNotificationsCount: Int,
     onNavigateToRoute: (String) -> Unit
 ) {
+    if (usesIosAppearance) {
+        IosTabBar(currentRoute, unreadNotificationsCount, onNavigateToRoute)
+        return
+    }
     NavigationBar(
         containerColor = GmiNavy,
         contentColor = Color.White,
@@ -168,6 +176,8 @@ fun GmiBottomBar(
                 label = {
                     Text(
                         text = label,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         fontSize = 10.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                     )
@@ -230,6 +240,56 @@ fun OfflineNoticeBanner(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun IosTabBar(
+    currentRoute: String,
+    unreadNotificationsCount: Int,
+    onNavigate: (String) -> Unit
+) {
+    val strings = LocalStrings.current
+    val items = listOf(
+        Triple("dashboard", strings.dashboard, Icons.Default.Home),
+        Triple("my-program", strings.mentorshipProgram, Icons.Default.School),
+        Triple("my-program/calendar", strings.calendar, Icons.Default.CalendarMonth),
+        Triple("messages", strings.messages, Icons.AutoMirrored.Filled.Chat),
+        Triple("notifications", strings.notifications, Icons.Default.Notifications)
+    )
+    Surface(color = GmiSurface) {
+        Column {
+            HorizontalDivider(color = GmiBorder, thickness = 0.5.dp)
+            Row(
+                Modifier.fillMaxWidth().navigationBarsPadding().selectableGroup(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEach { (route, label, icon) ->
+                    val selected = currentRoute == route ||
+                        (route == "my-program" && currentRoute.startsWith("my-program/session/")) ||
+                        (route == "messages" && currentRoute.startsWith("messages/thread/"))
+                    val tint = if (selected) GmiPrimaryBlue else GmiTextSecondary
+                    Column(
+                        modifier = Modifier.weight(1f).heightIn(min = 56.dp)
+                            .selectable(selected = selected, role = Role.Tab, onClick = { onNavigate(route) })
+                            .padding(horizontal = 2.dp, vertical = 8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        BadgedBox(badge = {
+                            if (route == "notifications" && unreadNotificationsCount > 0) {
+                                Badge { Text(if (unreadNotificationsCount > 99) "99+" else unreadNotificationsCount.toString()) }
+                            }
+                        }) {
+                            Icon(icon, contentDescription = label, tint = tint, modifier = Modifier.size(24.dp))
+                        }
+                        Text(label, color = tint, fontSize = 10.sp, letterSpacing = 0.sp,
+                            lineHeight = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal)
+                    }
                 }
             }
         }

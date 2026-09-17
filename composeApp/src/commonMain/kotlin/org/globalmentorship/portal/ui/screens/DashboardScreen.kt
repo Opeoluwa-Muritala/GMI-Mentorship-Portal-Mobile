@@ -213,7 +213,7 @@ fun DashboardScreen(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     LinearProgressIndicator(
-                        progress = { programOverview.completedSessions.toFloat() / programOverview.totalSessions.toFloat() },
+                        progress = { (programOverview.completedSessions.toFloat() / programOverview.totalSessions.coerceAtLeast(1).toFloat()).coerceIn(0f, 1f) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(10.dp)
@@ -224,9 +224,9 @@ fun DashboardScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Row(
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
                             text = strings.sessionsCompleted.formatArgs(programOverview.completedSessions),
@@ -262,12 +262,11 @@ fun DashboardScreen(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     if (currentSession != null) {
-                        Row(
+                        Column(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Column(modifier = Modifier.weight(1f)) {
+                            Column {
                                 Text(
                                     text = currentSession.title,
                                     fontWeight = FontWeight.SemiBold,
@@ -280,11 +279,11 @@ fun DashboardScreen(
                                     color = GmiTextSecondary
                                 )
                             }
-                            Spacer(modifier = Modifier.width(8.dp))
                             Button(
                                 onClick = { onNavigateToSession(currentSession.sessionNumber) },
-                                colors = ButtonDefaults.buttonColors(containerColor = GmiOrangeCurrent),
-                                shape = RoundedCornerShape(8.dp),
+                                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = GmiPrimaryBlue),
+                                shape = RoundedCornerShape(12.dp),
                                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                             ) {
                                 Text(
