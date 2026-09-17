@@ -67,58 +67,46 @@ jobs:
       - name: Compile & Link iOS Device Framework (Arm64)
         run: ./gradlew :composeApp:linkDebugFrameworkIosArm64
 
-      - name: Package iOS Simulator App (for Appetize.io)
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        run: |
+          cd iosApp
+          xcodegen generate
+          cd ..
+
+      - name: Build iOS Simulator App (for Appetize.io)
         run: |
           set -e
-          SIM_SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
-          SIM_FW_DIR="$PWD/composeApp/build/bin/iosSimulatorArm64/debugFramework"
-          APPETIZE_APP_DIR="$PWD/build-appetize/GMIPortal.app"
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build-sim \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO build
           
-          mkdir -p "$APPETIZE_APP_DIR/Frameworks"
-          
-          xcrun -sdk iphonesimulator swiftc \
-            -parse-as-library \
-            iosApp/iosApp/iOSApp.swift iosApp/iosApp/ContentView.swift \
-            -sdk "$SIM_SDK" \
-            -target arm64-apple-ios15.0-simulator \
-            -F "$SIM_FW_DIR" \
-            -framework ComposeApp \
-            -Xlinker -rpath -Xlinker @executable_path/Frameworks \
-            -o "$APPETIZE_APP_DIR/GMIPortal"
-          
-          cp iosApp/Info.plist "$APPETIZE_APP_DIR/Info.plist"
-          cp -R "$SIM_FW_DIR/ComposeApp.framework" "$APPETIZE_APP_DIR/Frameworks/"
-          
-          cd "$PWD/build-appetize"
+          mkdir -p build-appetize
+          cp -R build-sim/Build/Products/Debug-iphonesimulator/iosApp.app build-appetize/GMIPortal.app
+          cd build-appetize
           zip -r "$GITHUB_WORKSPACE/GMIPortal-Simulator.zip" GMIPortal.app
           cd "$GITHUB_WORKSPACE"
 
-      - name: Package iOS IPA (for Sideloadly / Device)
+      - name: Build iOS Device IPA (for Sideloadly)
         run: |
           set -e
-          DEV_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-          DEV_FW_DIR="$PWD/composeApp/build/bin/iosArm64/debugFramework"
-          PAYLOAD_DIR="$PWD/build-ipa/Payload"
-          APP_DIR="$PAYLOAD_DIR/GMIPortal.app"
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build-dev \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO build
           
-          mkdir -p "$APP_DIR/Frameworks"
-          
-          xcrun -sdk iphoneos swiftc \
-            -parse-as-library \
-            iosApp/iosApp/iOSApp.swift iosApp/iosApp/ContentView.swift \
-            -sdk "$DEV_SDK" \
-            -target arm64-apple-ios15.0 \
-            -F "$DEV_FW_DIR" \
-            -framework ComposeApp \
-            -Xlinker -rpath -Xlinker @executable_path/Frameworks \
-            -o "$APP_DIR/GMIPortal"
-          
-          cp iosApp/Info.plist "$APP_DIR/Info.plist"
-          cp -R "$DEV_FW_DIR/ComposeApp.framework" "$APP_DIR/Frameworks/"
-          
-          cd "$PWD/build-ipa"
+          mkdir -p Payload
+          cp -R build-dev/Build/Products/Debug-iphoneos/iosApp.app Payload/GMIPortal.app
           zip -r "$GITHUB_WORKSPACE/GMIPortal.ipa" Payload
-          cd "$GITHUB_WORKSPACE"
 
       - name: Upload Appetize Simulator Zip
         uses: actions/upload-artifact@v4

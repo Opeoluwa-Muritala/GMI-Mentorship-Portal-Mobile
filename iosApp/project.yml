@@ -1,0 +1,30 @@
+name: iosApp
+options:
+  bundleIdPrefix: org.globalmentorship
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  iosApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: iosApp
+    info:
+      path: Info.plist
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: org.globalmentorship.portal
+      CODE_SIGNING_ALLOWED: "NO"
+      CODE_SIGNING_REQUIRED: "NO"
+      CODE_SIGN_IDENTITY: ""
+      OTHER_LDFLAGS:
+        - -lc++
+        - -framework CoreText
+        - -framework CoreGraphics
+        - -framework Metal
+        - -framework MetalKit
+        - -framework QuartzCore
+        - -framework ComposeApp
+      FRAMEWORK_SEARCH_PATHS:
+        - $(SRCROOT)/../composeApp/build/bin/iosSimulatorArm64/debugFramework
+        - $(SRCROOT)/../composeApp/build/bin/iosArm64/debugFramework
