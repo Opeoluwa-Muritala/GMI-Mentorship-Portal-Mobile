@@ -87,64 +87,27 @@ fun GmiTopAppBar(
                 }
             }
 
-            // User Chip with Avatar, Name, and Role Badge
+            // Profile Circle Avatar
             if (user != null) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.White.copy(alpha = 0.12f))
-                        .clickable { onUserChipClicked() }
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    // Circular Avatar
-                    Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clip(CircleShape)
-                            .background(GmiPrimaryBlue),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = user.initials,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(6.dp))
-
-                    Column(
-                        horizontalAlignment = Alignment.Start,
-                        modifier = Modifier.padding(end = 4.dp)
-                    ) {
-                        Text(
-                            text = user.firstName,
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            maxLines = 1
-                        )
-                        Text(
-                            text = if (user.role == UserRole.STUDENT) "Student" else "Mentor",
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .border(
+                            width = 2.dp,
                             color = if (user.role == UserRole.STUDENT) Color(0xFFFFD54F) else Color(0xFF81C784),
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Medium
+                            shape = CircleShape
                         )
-                    }
-
-                    IconButton(
-                        onClick = onRoleSwitchDemo,
-                        modifier = Modifier.size(28.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.SwapHoriz,
-                            contentDescription = "Switch Student/Mentor",
-                            tint = Color.White.copy(alpha = 0.85f),
-                            modifier = Modifier.size(18.dp)
-                        )
-                    }
+                        .background(GmiPrimaryBlue)
+                        .clickable { onUserChipClicked() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = user.initials,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 13.sp
+                    )
                 }
             }
         }
