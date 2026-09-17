@@ -27,6 +27,7 @@ targets:
         - -framework MetalKit
         - -framework QuartzCore
         - -framework ComposeApp
-      FRAMEWORK_SEARCH_PATHS:
+      "FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]":
         - $(SRCROOT)/../composeApp/build/bin/iosSimulatorArm64/debugFramework
+      "FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]":
         - $(SRCROOT)/../composeApp/build/bin/iosArm64/debugFramework
