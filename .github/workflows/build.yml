@@ -64,8 +64,8 @@ jobs:
       - name: Compile & Link iOS Simulator Framework
         run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
 
-      - name: Build iOS App Archive (Optional IPA / Framework)
-        run: ./gradlew :composeApp:assembleComposeAppDebugFrameworkIosArm64
+      - name: Compile & Link iOS Device Framework (Arm64)
+        run: ./gradlew :composeApp:linkDebugFrameworkIosArm64
 
       - name: Upload iOS Framework Artifact
         uses: actions/upload-artifact@v4
