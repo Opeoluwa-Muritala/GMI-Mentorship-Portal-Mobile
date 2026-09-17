@@ -1,5 +1,17 @@
 package org.globalmentorship.portal.localization
 
+fun String.formatArgs(vararg args: Any): String {
+    var result = this
+    args.forEach { arg ->
+        if (result.contains("%s")) {
+            result = result.replaceFirst("%s", arg.toString())
+        } else if (result.contains("%d")) {
+            result = result.replaceFirst("%d", arg.toString())
+        }
+    }
+    return result
+}
+
 data class AppStrings(
     // App & Nav
     val appTitle: String,

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.globalmentorship.portal.domain.models.*
+import org.globalmentorship.portal.localization.formatArgs
 import org.globalmentorship.portal.localization.LocalStrings
 import org.globalmentorship.portal.ui.theme.*
 
@@ -369,7 +370,7 @@ private fun NewConversationModal(
                         color = GmiNavy
                     )
                     Text(
-                        text = strings.subjectCharLimit.format(subjectText.length),
+                        text = strings.subjectCharLimit.formatArgs(subjectText.length),
                         fontSize = 11.sp,
                         color = if (subjectText.length > 200) Color.Red else GmiTextSecondary
                     )
@@ -398,7 +399,7 @@ private fun NewConversationModal(
                         color = GmiNavy
                     )
                     Text(
-                        text = strings.messageCharLimit.format(messageBody.length),
+                        text = strings.messageCharLimit.formatArgs(messageBody.length),
                         fontSize = 11.sp,
                         color = if (messageBody.length > 10000) Color.Red else GmiTextSecondary
                     )

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import org.globalmentorship.portal.domain.models.NotificationCategory
 import org.globalmentorship.portal.domain.models.NotificationItem
 import org.globalmentorship.portal.localization.LocalStrings
+import org.globalmentorship.portal.localization.formatArgs
 import org.globalmentorship.portal.ui.theme.*
 
 enum class NotificationFilter {
@@ -85,7 +86,7 @@ fun NotificationsScreen(
                             color = GmiNavy
                         )
                         Text(
-                            text = strings.unreadNotificationsCount.format(unreadCount),
+                            text = strings.unreadNotificationsCount.formatArgs(unreadCount),
                             fontSize = 12.sp,
                             color = if (unreadCount > 0) GmiPrimaryBlue else GmiTextSecondary
                         )
@@ -129,7 +130,7 @@ fun NotificationsScreen(
                     FilterChip(
                         selected = currentFilter == NotificationFilter.UNREAD,
                         onClick = { currentFilter = NotificationFilter.UNREAD },
-                        label = { Text(strings.filterUnread.format(unreadCount)) },
+                        label = { Text(strings.filterUnread.formatArgs(unreadCount)) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = GmiNavy,
                             selectedLabelColor = Color.White

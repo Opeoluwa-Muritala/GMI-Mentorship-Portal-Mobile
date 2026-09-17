@@ -419,7 +419,7 @@ class FakeCalendarRepository : CalendarRepository {
         sessionNumber: Int
     ): Result<SuggestedMeeting> {
         val meeting = SuggestedMeeting(
-            id = "sug_${System.currentTimeMillis()}",
+            id = "sug_${Clock.System.now().toEpochMilliseconds()}",
             dateIso = dateIso,
             startTimeIso = startTime,
             endTimeIso = endTime,
@@ -632,7 +632,7 @@ class FakeMessageRepository : MessageRepository {
 
         val thread = currentThreads[index]
         val newMsg = ChatMessage(
-            id = "msg_${System.currentTimeMillis()}",
+            id = "msg_${Clock.System.now().toEpochMilliseconds()}",
             threadId = threadId,
             senderId = "user_student_01",
             senderName = "Alex Mwangi",
@@ -665,9 +665,9 @@ class FakeMessageRepository : MessageRepository {
         val recipient = _availableRecipients.value.find { it.id == recipientId }
             ?: _availableRecipients.value.first()
 
-        val threadId = "thread_${System.currentTimeMillis()}"
+        val threadId = "thread_${Clock.System.now().toEpochMilliseconds()}"
         val initialMsg = ChatMessage(
-            id = "msg_${System.currentTimeMillis()}",
+            id = "msg_${Clock.System.now().toEpochMilliseconds()}",
             threadId = threadId,
             senderId = "user_student_01",
             senderName = "Alex Mwangi",
@@ -825,7 +825,7 @@ class FakeSettingsRepository(
         fileUri: String?
     ): Result<ResumeItem> {
         val item = ResumeItem(
-            id = "res_${System.currentTimeMillis()}",
+            id = "res_${Clock.System.now().toEpochMilliseconds()}",
             name = name,
             resourceType = resourceType,
             fileUrlOrPath = externalUrl ?: fileUri ?: "Uploaded File",

@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.globalmentorship.portal.domain.models.*
+import org.globalmentorship.portal.localization.formatArgs
 import org.globalmentorship.portal.localization.LocalStrings
 import org.globalmentorship.portal.ui.theme.*
 
@@ -55,7 +56,7 @@ fun DashboardScreen(
         item {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = strings.welcomeBack.format(user?.firstName ?: "there"),
+                    text = strings.welcomeBack.formatArgs(user?.firstName ?: "there"),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = GmiNavy
@@ -228,7 +229,7 @@ fun DashboardScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = strings.sessionsCompleted.format(programOverview.completedSessions),
+                            text = strings.sessionsCompleted.formatArgs(programOverview.completedSessions),
                             style = MaterialTheme.typography.bodySmall,
                             color = GmiTextSecondary
                         )

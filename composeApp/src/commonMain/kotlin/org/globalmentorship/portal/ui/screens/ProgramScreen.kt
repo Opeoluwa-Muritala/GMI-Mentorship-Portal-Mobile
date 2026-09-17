@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.globalmentorship.portal.domain.models.*
 import org.globalmentorship.portal.localization.LocalStrings
+import org.globalmentorship.portal.localization.formatArgs
 import org.globalmentorship.portal.ui.theme.*
 
 @Composable
@@ -76,7 +77,7 @@ fun ProgramScreen(
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            text = strings.nextSession.format(programOverview.currentSessionNumber),
+                            text = strings.nextSession.formatArgs(programOverview.currentSessionNumber),
                             fontWeight = FontWeight.Bold,
                             fontSize = 13.sp
                         )

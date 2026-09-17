@@ -1,5 +1,6 @@
 package org.globalmentorship.portal.platform
 
+import kotlinx.datetime.Clock
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 
@@ -64,7 +65,7 @@ actual class PlatformCalendarExporter {
 }
 
 actual class PlatformPushHandler {
-    actual suspend fun getDevicePushToken(): String? = "ios_apns_mock_token_${System.currentTimeMillis()}"
+    actual suspend fun getDevicePushToken(): String? = "ios_apns_mock_token_${Clock.System.now().toEpochMilliseconds()}"
 }
 
 actual class PlatformShareSheet {

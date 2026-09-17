@@ -78,7 +78,7 @@ class PersistentAuthRepository(
             _currentUser.value = user
             _isAuthenticated.value = true
             localDb.saveUserProfile(user)
-            localDb.authToken = "jwt_token_sample_${System.currentTimeMillis()}"
+            localDb.authToken = "jwt_token_sample_${Clock.System.now().toEpochMilliseconds()}"
             Result.success(user)
         } else {
             Result.failure(IllegalArgumentException("Invalid email or password."))
@@ -479,7 +479,7 @@ class PersistentCalendarRepository(
         sessionNumber: Int
     ): Result<SuggestedMeeting> {
         val meeting = SuggestedMeeting(
-            id = "sug_${System.currentTimeMillis()}",
+            id = "sug_${Clock.System.now().toEpochMilliseconds()}",
             dateIso = dateIso,
             startTimeIso = startTime,
             endTimeIso = endTime,
@@ -618,7 +618,7 @@ class PersistentMessageRepository(
 
         val thread = current[index]
         val newMsg = ChatMessage(
-            id = "msg_${System.currentTimeMillis()}",
+            id = "msg_${Clock.System.now().toEpochMilliseconds()}",
             threadId = threadId,
             senderId = "user_student_01",
             senderName = "Alex Mwangi",
@@ -651,9 +651,9 @@ class PersistentMessageRepository(
         contentHtml: String
     ): Result<MessageThread> {
         val recipient = _availableRecipients.value.find { it.id == recipientId } ?: partnerMentorRecipient
-        val threadId = "thread_${System.currentTimeMillis()}"
+        val threadId = "thread_${Clock.System.now().toEpochMilliseconds()}"
         val initialMsg = ChatMessage(
-            id = "msg_${System.currentTimeMillis()}",
+            id = "msg_${Clock.System.now().toEpochMilliseconds()}",
             threadId = threadId,
             senderId = "user_student_01",
             senderName = "Alex Mwangi",
