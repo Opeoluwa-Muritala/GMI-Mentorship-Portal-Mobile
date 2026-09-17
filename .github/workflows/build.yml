@@ -9,7 +9,6 @@ on:
 
 jobs:
   build-android:
-    if: false
     name: Build Android APK & Run Tests
     runs-on: ubuntu-latest
     steps:
