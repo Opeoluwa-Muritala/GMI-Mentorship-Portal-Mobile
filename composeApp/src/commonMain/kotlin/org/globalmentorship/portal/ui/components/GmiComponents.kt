@@ -135,7 +135,11 @@ fun GmiBottomBar(
         )
 
         navItems.forEach { (route, label, icon) ->
-            val isSelected = currentRoute.startsWith(route)
+            val isSelected = when (route) {
+                "my-program" -> currentRoute == "my-program" || currentRoute.startsWith("my-program/session/")
+                "messages" -> currentRoute == "messages" || currentRoute.startsWith("messages/thread/")
+                else -> currentRoute == route
+            }
             NavigationBarItem(
                 selected = isSelected,
                 onClick = { onNavigateToRoute(route) },
