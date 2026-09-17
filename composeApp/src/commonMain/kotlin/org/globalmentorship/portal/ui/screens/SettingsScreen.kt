@@ -211,20 +211,7 @@ fun SettingsScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
                         HorizontalDivider(color = GmiBorder)
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        // Switch Role View (Demo)
-                        OutlinedButton(
-                            onClick = onRoleSwitchDemo,
-                            shape = RoundedCornerShape(8.dp),
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Icon(imageVector = Icons.Default.SwapHoriz, contentDescription = null, tint = GmiPrimaryBlue)
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(strings.switchRoleDemo, color = GmiNavy, fontWeight = FontWeight.SemiBold)
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
                         // Logout button
                         Button(

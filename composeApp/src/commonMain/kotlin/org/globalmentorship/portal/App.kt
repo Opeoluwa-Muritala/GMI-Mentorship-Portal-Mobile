@@ -95,11 +95,6 @@ fun App(
                             GmiTopAppBar(
                                 user = user,
                                 onUserChipClicked = { currentScreen = Screen.Settings },
-                                onRoleSwitchDemo = {
-                                    coroutineScope.launch {
-                                        authRepo.switchDemoRole()
-                                    }
-                                },
                                 onLogoutClicked = {
                                     coroutineScope.launch {
                                         authRepo.logout()
@@ -332,11 +327,6 @@ fun App(
                                     onLogout = {
                                         coroutineScope.launch {
                                             authRepo.logout()
-                                        }
-                                    },
-                                    onRoleSwitchDemo = {
-                                        coroutineScope.launch {
-                                            authRepo.switchDemoRole()
                                         }
                                     },
                                     isOnlineSyncEnabled = localDb.isOnlineApiSyncEnabled,

@@ -30,8 +30,8 @@ import org.globalmentorship.portal.ui.theme.*
 fun GmiTopAppBar(
     user: UserProfile?,
     onUserChipClicked: () -> Unit,
-    onRoleSwitchDemo: () -> Unit,
-    onLogoutClicked: () -> Unit,
+    onRoleSwitchDemo: () -> Unit = {},
+    onLogoutClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Surface(
