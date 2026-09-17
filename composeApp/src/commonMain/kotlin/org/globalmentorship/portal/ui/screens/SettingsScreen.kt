@@ -42,7 +42,6 @@ fun SettingsScreen(
     onDeleteResume: (String) -> Unit,
     onSelectLanguage: (AppLanguage) -> Unit,
     onLogout: () -> Unit,
-    onRoleSwitchDemo: () -> Unit,
     isOnlineSyncEnabled: Boolean = true,
     apiBaseUrl: String = "https://www.gmiportal.org/api/v1",
     lastSyncTimestamp: String? = null,
